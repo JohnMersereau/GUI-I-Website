@@ -1,8 +1,18 @@
-body{
+/*
+Used no web sources when making this.
+
+Name: John Mersereau
+Email: John_Mersereau@student.uml.edu
+Student at UMass Lowell in course 91.61 GUI Programming I
+Created 10/15/2020
+Styles the webpages of my website.
+*/
+
+body{/* Gets rid of margin*/
   margin: 0px;
 }
 
-div#header{
+div#header{/*adjusts height and scaling font, and does border and colors*/
   background-color: White;
   font-weight: bold;
   text-align: center;
@@ -12,11 +22,12 @@ div#header{
   border-style: none none solid none;
 }
 
-div#header a{
+div#header a{/*Makes no change in style from making the header a link*/
   text-decoration: none;
   color: black;
 }
 
+/*Gets rid of margins for row and col*/
 div.row{
   margin: 0px;
 }
@@ -25,7 +36,7 @@ div.col{
   margin: 0px;
 }
 
-div#navigation{
+div#navigation{/*Scales the height and font size, and does borders and colors*/
   background-color: Silver;
   height: 3.5vh;
   text-align: center;
@@ -37,18 +48,18 @@ div#navigation{
   border-color: Black;
 }
 
-div#navigation a{
+div#navigation a{/*Gives space between the links, and gets rid of any style changes from making them links*/
   padding-left: 10px;
   padding-right: 10px;
   text-decoration: none;
   color:black;
 }
 
-div#navigation a:hover{
+div#navigation a:hover{/*Changes colors of nav bar links when hovered over*/
   color: #707B7C;
 }
 
-div#content{
+div#content{/*Sets colors, and scaling height to match the other elements, and adds spacing to keep the text off the edges.*/
   background-color: LightGray;
   height: 89.5vh;
   padding: 50px;

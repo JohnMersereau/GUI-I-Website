@@ -1,0 +1,41 @@
+/* 
+I used no web sources, when making this, I looked at my inclass1 activity to double check syntax for border-style.
+
+Name: John Mersereau
+Email: John_Mersereau@student.uml.edu
+Student at UMass Lowell in course 91.61 GUI Programming I
+Created 9/22/2020
+Styles the webpages of my website.
+*/
+body{ /* gives background color for the page, and gets rid of the margin */
+    background-color: LightGray;
+    margin: 0px;
+}
+header{ /* for top of the page, including the title of the webpage, stays at center, scales with sie of screen, has a black underlinet to seperate it from the rest of the page */
+    background-color: White;
+    font-size: 3vw;
+    font-weight: bold;
+    text-align: center;
+    border-style: none none solid none;
+}
+navmenu{ /* Navigation Menu, stays on left side of the screen */
+    background-color: Silver;
+    height: 100%;
+    width: 15%;
+    position: fixed;
+
+    text-align: center;
+    padding-top: 8px;
+
+    border-color: Gray;
+    border-width: thin;
+    border-style: none solid none none;
+}
+div{ /* text formated to not overlap with the nav menu and to not go off the side of the screen */ 
+    position: relative;
+    width: 80%;
+    left: 18%;
+    
+}
+
+

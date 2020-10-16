@@ -1,0 +1,33 @@
+<!--John Mersereau-->
+<!--John_Mersereau@student.uml.edu-->
+<!--Student of UMass Lowell in course 91.61 GUI Programming I-->
+<!--Created on 9/22/20-->
+<!--Has a description of me and the start of a side navigation menu-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <title>John's Webpage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="script.js"></script>
+ </head>
+ <body>
+   <header>John's Webpage</header><!--Header of Page-->
+   <navmenu> <!--Navigation Bar-->
+     <b>Navigation Menu</b></br>
+     Under Contruction
+   </navmenu>
+   <div>
+     <p><!--Main Paragraph of Webpage-->
+       &nbsp;&nbsp;&nbsp;&nbsp;Hello, I am John, and this is my webpage. I am a senior computer science student, at UML. My experience includes a one year apprenticeship during my senior year of high school, and 4 years of being in an internship. During this internship, I have done bug testing for mobile apps, and web development. I have experience with the languages: C, C++, Java, Python, HTML, and Java Script. I have used the frameworks Django and Lektor, which are used for web development. I have also have experience with Amazon Web Services.
+     </p>
+     <p> <!-- CSS Badge -->
+       <a href="https://jigsaw.w3.org/css-validator/check/referer">
+	 <img style="border:0;width:88px;height:31px;position:fixed;bottom:0px;right:0px;"
+              src="https://jigsaw.w3.org/css-validator/images/vcss"
+              alt="Valid CSS">
+       </a>
+     </p>
+   </div>
+ </body>
+</html>

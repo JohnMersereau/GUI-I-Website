@@ -1,0 +1,56 @@
+body{
+  margin: 0px;
+}
+
+div#header{
+  background-color: White;
+  font-weight: bold;
+  text-align: center;
+
+  height: 7vh;
+  font-size: 4.5vh;
+  border-style: none none solid none;
+}
+
+div#header a{
+  text-decoration: none;
+  color: black;
+}
+
+div.row{
+  margin: 0px;
+}
+
+div.col{
+  margin: 0px;
+}
+
+div#navigation{
+  background-color: Silver;
+  height: 3.5vh;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2vh;
+
+  border-style: none none solid none;
+  border-width: thin;
+  border-color: Black;
+}
+
+div#navigation a{
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  color:black;
+}
+
+div#navigation a:hover{
+  color: #707B7C;
+}
+
+div#content{
+  background-color: LightGray;
+  height: 89.5vh;
+  padding: 50px;
+  padding-top: 25px;
+}

@@ -216,7 +216,7 @@ function victory(){
   div.style = "display: inline-block; height: 425px; padding: 0px; margin: 0px;"
   img = document.createElement("img");
   img.style = "height: 400px; width: auto; border-style: solid; border-color: black;"
-  img.src = "images/durkin.PNG";
+  img.src = "images/Durkin.PNG";
   div.appendChild(img);
   gameWindow.appendChild(div);
   div = document.createElement("div");

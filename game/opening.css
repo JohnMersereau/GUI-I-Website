@@ -1,0 +1,17 @@
+@keyframes intro-animation {
+  100% {
+    background-position: -41650px 0;
+  }
+}
+
+.intro-ani {
+    width: 1225px;
+    height: 700px;
+    pointer-events: none;
+    background: url("images/animationlgc.png") no-repeat 0 0;
+    animation-name: intro-animation;
+    animation-duration: 4s;
+    animation-delay: 1s;
+    animation-timing-function: steps(34);
+    animation-play-state: running;
+}

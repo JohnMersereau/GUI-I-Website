@@ -210,7 +210,7 @@ function victory(){
 
   div = document.createElement("div");
   div.style = "position: relative; left: -22px; height: 80px; width: 689px; padding: 0xp; margin: 0px; font-weight: bold; font-size: 40px;"
-  div.innerHTML = "<marquee>CONGRADULATIONS!!!</marquee>";
+  div.innerHTML = "<marquee>CONGRATULATIONS!!!</marquee>";
   gameWindow.appendChild(div);
   div = document.createElement("div");
   div.style = "display: inline-block; height: 425px; padding: 0px; margin: 0px;"

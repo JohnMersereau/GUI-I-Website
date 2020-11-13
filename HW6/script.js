@@ -1,11 +1,12 @@
 //John Mersereau
 //John_Mersereau@student.uml.edu
 //Student of UMass Lowell in course 91.61 GUI Programming I
-//Created on 10/29/20
+//Created on 11/12/20
 //Sources:
 //greaterThan validator: https://stackoverflow.com/questions/29451507/how-to-use-jquery-validator-to-determine-value-of-one-field-is-greater-than-anot
-//
+//general reference: w3schools.com
 
+//check for if something is >=
 $.validator.addMethod("greaterThanEqu",
   function (value, element, param) {
       var $otherElement = $(param);
@@ -13,6 +14,7 @@ $.validator.addMethod("greaterThanEqu",
   }
 );
 
+//check if something is a pos or neg whole number.
 $.validator.addMethod("wholeNumber",
   function (value, element, param) {
     var num = parseInt(value, 10);
@@ -20,6 +22,7 @@ $.validator.addMethod("wholeNumber",
   }
 );
 
+//Make text box with error red.
 function setError (id){
   document.getElementById(id).style.borderColor = "red";
 }
@@ -27,6 +30,11 @@ function setError (id){
 $(document).ready(function(){
 
   $('#iForm').validate({
+    //added requirements to fields
+    //each requires input
+    //each requires it to be a whole number
+    //each reqires it to be with -50 and 50
+    //maxes require to be greater than or equal to min
       rules: {
         col_min: {
           required: true,
@@ -51,7 +59,7 @@ $(document).ready(function(){
           greaterThanEqu: "#row_min"
         }
       },
-
+      //added relative messages to the errors.
       messages: {
         col_min: {
           required: function(){
@@ -118,7 +126,7 @@ $(document).ready(function(){
             }
         }
       },
-
+      //make validated text boxes black again.
       success: function(label, element){
         $(element).css({"border-color" : "black"});
       }
@@ -143,32 +151,6 @@ function create_table(){
   //resetting fields
   err_field.innerHTML = "";
   mult_table.innerHTML = "";
-
-  //Error Handling
-  //If they left an input blank
-  //if(min_col == "" || max_col == "" || min_row == "" || max_row == ""){
-  //  err_field.innerHTML += "Submit values for every field.</br>";
-  //  return;
-  //}
-
-  //If the number they entered is not a whole number
-  //if(min_col % 1 || max_col % 1 || min_row % 1 || max_row % 1){
-  //  err_field.innerHTML += "Only submit whole numbers.</br>";
-  //  return;
-  //}
-
-  //If any of the numbers are outside of the working range
-  //if(min_col > 50 || max_col > 50 || min_row > 50 || max_row > 50 ||
-  //   min_col < -50 || max_col < -50 || min_row < -50 || max_row < -50){
-  //  err_field.innerHTML += "Only submit values between -50 and 50.</br>";
-  //  return;
-  //}
-
-  //If any of the min values are greater than the max values
-  //if(min_col > max_col || min_row > max_row){
-  //  err_field.innerHTML += "Only submit min values that are less than or equal to respective max value.</br>";
-  //  return;
-  //}
 
   //Making the multiplication table
   table = document.createElement('table');

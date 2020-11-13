@@ -1,0 +1,61 @@
+/*
+John Mersereau
+John_Mersereau@student.uml.edu
+Student of UMass Lowell in course 91.61 GUI Programming I
+Created on 10/29/20
+Sources: none
+*/
+
+/*Just standard styling*/
+body{
+  text-align: center;
+}
+
+div#input_form {
+  display: inline-block;
+  border: solid;
+  border-width: thin;
+  padding: 5px;
+}
+
+div#input_form td label.error{
+  color: red;
+}
+
+div#error {
+  vertical-align: top;
+}
+
+div#mult_table {
+  overflow: auto;
+  overflow-y: scroll;
+}
+
+div#mult_table table {
+  display: inline-block;
+  border-spacing: 0px;
+  max-height: 70vh;
+}
+
+div#mult_table td {
+  text-align: right;
+  border: solid;
+  border-color: Black;
+  border-width: thin;
+  color: Black;
+  background-color: White;
+  min-width: 40px;
+  padding: 2px;
+}
+
+div#mult_table td#header {
+  color: White;
+  background-color: Black;
+  border-color: White;
+  font-weight: bold;
+}
+
+div#mult_table td#blank {
+  background: inherit;
+  border: none;
+}

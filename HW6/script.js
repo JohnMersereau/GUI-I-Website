@@ -9,7 +9,7 @@
 $.validator.addMethod("greaterThanEqu",
   function (value, element, param) {
       var $otherElement = $(param);
-      return parseInt(value, 10) >= parseInt($otherElement.val(), 10);
+      return Number.parseInt(value, 10) >= parseInt($otherElement.val(), 10);
   }
 );
 
@@ -23,13 +23,6 @@ $.validator.addMethod("wholeNumber",
 function setError (id){
   document.getElementById(id).style.borderColor = "red";
 }
-
-$("form").submit(function(){
-  if($(this).valid()){
-    create_table();
-  }
-  return false;
-});
 
 $(document).ready(function(){
 
@@ -142,10 +135,10 @@ function create_table(){
   var mult_table = document.getElementById("mult_table");
 
   //grabbing input values
-  var min_col = document.getElementById("col_min").value;
-  var max_col = document.getElementById("col_max").value;
-  var min_row = document.getElementById("row_min").value;
-  var max_row = document.getElementById("row_max").value;
+  var min_col = Number.parseInt(document.getElementById("col_min").value,10);
+  var max_col = Number.parseInt(document.getElementById("col_max").value,10);
+  var min_row = Number.parseInt(document.getElementById("row_min").value,10);
+  var max_row = Number.parseInt(document.getElementById("row_max").value,10);
 
   //resetting fields
   err_field.innerHTML = "";

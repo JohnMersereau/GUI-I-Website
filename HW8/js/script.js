@@ -5,12 +5,12 @@ var placed_tiles = 0;
 var starting_tile = 0;
 var new_word = true;
 
-var tiles_per_row = 15;
-var number_of_rows = 1;
-var double_word = [2, 12];
-var double_letter = [6, 8];
+const tiles_per_row = 15;
+const number_of_rows = 1;
+const double_word = [2, 12];
+const double_letter = [6, 8];
 
-var hand_size = 7;
+const hand_size = 7;
 var tiles_in_hand = 0;
 
 var score = 0;
@@ -19,7 +19,7 @@ initialize();
 
 function initialize(){
   var piece_array_index;
-  var gameWindow = document.getElementById("scrabbleWindow");
+  const gameWindow = document.getElementById("scrabbleWindow");
   var board;
   var hand;
   var controls;
@@ -32,7 +32,7 @@ function initialize(){
   placed_tiles = 0;
   tiles_in_hand = 0;
   starting_tile = 0;
-  new_word = false;
+  new_word = true;
   score = 0;
 
   for(var x = 0; x < 26; x++){
@@ -58,12 +58,13 @@ function initialize(){
   for(var x = 0; x < number_of_rows; x++){
     for(var y = 0; y < tiles_per_row; y++){
       image = document.createElement('img');
-      image.style.visibility = "hidden";
+      image.style.opacity = 0;
       image.id = (x * tiles_per_row) + y;
       image.src = "images/Scrabble_Tiles/Scrabble_Tile_A.jpg"
       image.classList.add("tile", "b_none");
       image.setAttribute("ondrop", "drop(event)");
       image.setAttribute("ondragover", "allow_drop(event)");
+      image.setAttribute("draggable", "false")
       board.appendChild(image);
     }
   }
@@ -92,9 +93,9 @@ function initialize(){
     letter = tiles[tiles_index++]
     image = document.createElement('img');
     image.id = "h" + tiles_in_hand;
-    image.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
+    image.src = "images/Scrabble_tiles/Scrabble_Tile_" + letter + ".jpg";
     image.classList.add("tile", letter);
-    image.setAttribute("draggable", true);
+    image.setAttribute("draggable", "true");
     image.setAttribute("ondragstart", "drag(event)");
 
     hand.appendChild(image);
@@ -115,7 +116,7 @@ function initialize(){
   td = document.createElement('td');
   element = document.createElement('button');
   element.id = "submit_word";
-  element.setAttribute("onclick", "submit_word(" + starting_tile + ")");
+  element.setAttribute("onclick", "submit_word()");
   element.innerHTML = "Submit Word";
   td.appendChild(element);
   tr.appendChild(td);
@@ -174,8 +175,75 @@ function new_hand(){
   return;
 }
 
-function submit_word(starting_tile){
+function submit_word(){
+  var word_score = 0;
+  var word_multiplier = 1;
+  const score_card = document.getElementById("score");
 
+  if(new_word){ return; }
+  new_word = true;
+
+  for(var x = starting_tile, tile, letter, val; x >= 0;){
+    tile = document.getElementById(x--);
+    letter = tile.classList.item(2);
+    if(letter == null){ break; }
+    val = Object.values(ScrabbleTiles[letter])[0];
+
+    word_score += val;
+    if(tile.classList.contains("b_dl")){
+      word_score += val;
+      tile.classList.remove("b_dl", letter);
+      tile.classList.add("b_none", letter);
+    }
+    else if(tile.classList.contains("b_dw")){
+      word_multiplier++;
+      tile.classList.remove("b_dw", letter);
+      tile.classList.add("b_none", letter);
+    }
+  }
+
+  for(var x = starting_tile + 1, tile, letter, val; x < tiles_per_row;){
+    tile = document.getElementById(x++);
+    letter = tile.classList.item(2);
+    if(letter == null){ break; }
+    val = Object.values(ScrabbleTiles[letter])[0];
+
+    word_score += val;
+    if(tile.classList.contains("b_dl")){
+      word_score += val;
+      tile.classList.remove("b_dl", letter);
+      tile.classList.add("b_none", letter);
+    }
+    else if(tile.classList.contains("b_dw")){
+      word_multiplier++;
+      tile.classList.remove("b_dw", letter);
+      tile.classList.add("b_none", letter);
+    }
+  }
+
+  word_score = word_score * word_multiplier;
+  score += word_score;
+  score_card.innerHTML = "Score: " + score;
+
+  refill_hand();
+
+  return;
+}
+
+function refill_hand(){
+  for(var x = 0, tile, letter; x < hand_size && tiles_index < tiles.length;){
+    tile = document.getElementById("h" + x++);
+    if(tile.style.visibility == "hidden"){
+      letter = tiles[tiles_index++];
+      tile.classList.remove(tile.classList.item(1));
+      tile.classList.add(letter);
+      tile.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
+      tiles_in_hand++;
+
+      tile.style.visibility = "visible";
+    }
+  }
+  return;
 }
 
 function allow_drop(event){
@@ -189,27 +257,27 @@ function drag(event){
 
 function drop(event){
   event.preventDefault();
-  var tile = document.getElementById(event.dataTransfer.getData('text'));
+  const tile = document.getElementById(event.dataTransfer.getData('text'));
   var letter;
-  var slot = event.target;
+  const slot = event.target;
 
-  if(tile.style.visibility == "visible" && slot.style.visibility == "hidden" &&
+  if(tile.style.visibility != "hidden" && slot.style.opacity == 0 &&
     (!placed_tiles ||
-    document.getElementById(parseInt(slot.id) - 1).style.visibility == "visible" ||
-    document.getElementById(parseInt(slot.id) + 1).style.visibility == "visible")){
+    (parseInt(slot.id) - 1 >= 0 && document.getElementById(parseInt(slot.id) - 1).style.opacity != 0) ||
+    (parseInt(slot.id) + 1 <= tiles_per_row && document.getElementById(parseInt(slot.id) + 1).style.opacity != 0))){
       tile.style.visibility = "hidden";
       tiles_in_hand--;
       letter = tile.classList.item(1);
       tile.classList.remove(letter);
 
       if(new_word){
-        new_word == false;
-        starting_tile == parseInt(slot.id);
+        new_word = false;
+        starting_tile = parseInt(slot.id);
       }
 
       slot.classList.add(letter);
       slot.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
-      slot.style.visibility = "visible";
+      slot.style.opacity = 1;
       placed_tiles++;
   }
   return;

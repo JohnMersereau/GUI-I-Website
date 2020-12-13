@@ -1,10 +1,8 @@
-div#scrabbleWindow{
-  text-align: center;
-}
-
 div#scrabbleWindow div{
   margin-top: 50px;
   margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div#scrabbleWindow div#board{
@@ -20,6 +18,19 @@ div#scrabbleWindow div#hand{
 
   padding-left: 50px;
   padding-top: 50px;
+}
+
+div#scrabbleWindow div#controls{
+  width: 470px;
+}
+
+div#scrabbleWindow div#controls p{
+  width: 80px;
+  margin: 20px;
+}
+
+div#scrabbleWindow div#controls button{
+  margin: 20px;
 }
 
 div#scrabbleWindow img.tile{

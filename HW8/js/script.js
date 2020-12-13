@@ -93,7 +93,7 @@ function initialize(){
     letter = tiles[tiles_index++]
     image = document.createElement('img');
     image.id = "h" + tiles_in_hand;
-    image.src = "images/Scrabble_tiles/Scrabble_Tile_" + letter + ".jpg";
+    image.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
     image.classList.add("tile", letter);
     image.setAttribute("draggable", "true");
     image.setAttribute("ondragstart", "drag(event)");

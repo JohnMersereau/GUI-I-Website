@@ -92,7 +92,7 @@ function initialize(){
     letter = tiles[tiles_index++]
     image = document.createElement('img');
     image.id = "h" + tiles_in_hand;
-    image.src = "images/Scrabble_tiles/Scrabble_Tile_" + letter + ".jpg";
+    image.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
     image.classList.add("tile", letter);
     image.setAttribute("draggable", true);
     image.setAttribute("ondragstart", "drag(event)");
@@ -168,7 +168,7 @@ function new_hand(){
       temp = document.getElementById("h" + tiles_in_hand++);
       letter = tiles[tiles_index++];
       temp.classList.add(letter);
-      temp.src = "images/Scrabble_tiles/Scrabble_Tile_" + letter + ".jpg";
+      temp.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
     }
   }
   return;
@@ -208,7 +208,7 @@ function drop(event){
       }
 
       slot.classList.add(letter);
-      slot.src = "images/Scrabble_tiles/Scrabble_tile_" + letter + ".jpg";
+      slot.src = "images/Scrabble_Tiles/Scrabble_Tile_" + letter + ".jpg";
       slot.style.visibility = "visible";
       placed_tiles++;
   }

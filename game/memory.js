@@ -1,4 +1,9 @@
-var matched = 8;
+var totalPairs = 8;
+var numBackgrounds = 7;
+var backgroundImage = 0;
+var numTileTypes = 32;
+
+var matched = 0;
 var match_check = false;
 var pick = 0;
 var totalTries = 0;
@@ -7,10 +12,12 @@ var pickTwo = null;
 
 var interval;
 var startTime;
+var pickTime;
 
 var checking = false;
 
 const tiles = [];
+const tileTypes = [];
 
 var gameWindow;
 var startButton;
@@ -30,7 +37,7 @@ function initialize(){
   gameWindow = document.getElementById("gameWindow");
   gameWindow.style = "width: 645px; height: 649px; background-color: #0DB0EE; border-style: solid; margin: auto; text-align: center; padding: 22px;";
   startButton = document.createElement("button");
-  startButton.setAttribute("onclick", "executeAsync(makeGame)");
+  startButton.setAttribute("onclick", "executeAsync(diffSelection)");
   startButton.innerHTML = "Click To Start";
   startButton.style = "height: inherit; width: inherit; background: none; border: none; outline: none; font-size: 50px; padding: 20px;";
   gameWindow.appendChild(startButton);
@@ -50,9 +57,27 @@ function update(){
     timerElement.innerHTML += (timeTaken % 60);
   }
 
+  if(pick == 2 && Math.floor((Date.now() - pickTime)/1000) >= 2){
+    if(!match_check){
+      document.getElementById(pickOne).children[0].src = "images/def.gif";
+      document.getElementById(pickTwo).children[0].src = "images/def.gif";
+      document.getElementById(pickOne).style.borderColor = "black";
+      document.getElementById(pickTwo).style.borderColor = "black";
+    }
+    else{
+      document.getElementById(pickOne).style.visibility = "hidden";
+      document.getElementById(pickTwo).style.visibility = "hidden";
+    }
+    //document.getElementById(pickOne).style.borderColor = "black";
+    //document.getElementById(pickTwo).style.borderColor = "black";
+
+    pick = 0;
+    match_check = false;
+  }
+
   triesElement.innerHTML = "Tries: " + totalTries;
 
-  if(matched == 8){
+  if(matched == totalPairs && match_check == false){
     clearInterval(interval);
     victory();
   }
@@ -92,8 +117,9 @@ function imgClick(id){
         document.getElementById(id).style.borderColor = "red";
         document.getElementById(pickOne).style.borderColor = "red";
       }
+      pickTime = Date.now();
     }
-    else if(pick == 2){
+    /*else if(pick == 2){
       if(!match_check){
         document.getElementById(pickOne).children[0].src = "images/def.gif";
         document.getElementById(pickTwo).children[0].src = "images/def.gif";
@@ -102,15 +128,44 @@ function imgClick(id){
       document.getElementById(pickTwo).style.borderColor = "black";
       pick = 0;
       match_check = false;
-    }
+    }*/
   }
   //sleep(3000);
   checking = false;
   return;
 }
 
-function makeGame(){
+function diffSelection(){
 
+  var normButton;
+  var expertButton;
+  var masterButton;
+
+  while(gameWindow.firstChild){
+    gameWindow.removeChild(gameWindow.lastChild);
+  }
+
+  normButton = document.createElement("button");
+  normButton.setAttribute("onclick", "executeAsync(function(){return makeGame(0)})");
+  normButton.innerHTML = "Normal";
+  normButton.style = "height: 215; width: inherit; background: none; border: none; outline: none; font-size: 50px; padding: 20px;";
+  gameWindow.appendChild(normButton);
+
+  expertButton = document.createElement("button");
+  expertButton.setAttribute("onclick", "executeAsync(function(){return makeGame(2)})");
+  expertButton.innerHTML = "Expert";
+  expertButton.style = "height: 215; width: inherit; background: none; border: none; outline: none; font-size: 50px; padding: 20px;";
+  gameWindow.appendChild(expertButton);
+
+  masterButton = document.createElement("button");
+  masterButton.setAttribute("onclick", "executeAsync(function(){return makeGame(4)})");
+  masterButton.innerHTML = "Master";
+  masterButton.style = "height: 215; width: inherit; background: none; border: none; outline: none; font-size: 50px; padding: 20px;";
+  gameWindow.appendChild(masterButton);
+
+}
+
+function makeGame(difficulty){
   matched = 0;
   match_check = false;
   pick = 0;
@@ -129,14 +184,45 @@ function makeGame(){
     gameWindow.removeChild(gameWindow.lastChild);
   }
 
-  for(var x = 0; x < 8; x++){
-    tiles[x * 2] = x;
-    tiles[(x * 2) + 1] = x;
+  var tileSize = 150;
+  var borderSize = 3;
+
+  if(difficulty == 2){
+    tileSize = 101;
+    borderSize = 1;
+  }
+  else if(difficulty == 4){
+    tileSize = 74;
+    borderSize = 1;
   }
 
-  for(var x = 0, tileOne = 0, tileTwo = 0, temp = 0; x < 1500; x++){
-    tileOne = randNum(15);
-    tileTwo = randNum(15);
+
+  var dimensions = 4 + difficulty;
+  totalPairs = dimensions * dimensions / 2;
+
+  backgroundImage = randNum(numBackgrounds - 1);
+
+  for(var x = 0; x < numTileTypes; x++){
+    tileTypes[x] = x;
+  }
+
+  for(var x = 0, typeOne = 0, typeTwo = 0, temp = 0; x < 1500; x++){
+    typeOne = randNum(numTileTypes - 1);
+    typeTwo = randNum(numTileTypes - 1);
+
+    temp = tileTypes[typeOne];
+    tileTypes[typeOne] = tileTypes[typeTwo]
+    tileTypes[typeTwo] = temp;
+  }
+
+  for(var x = 0; x < totalPairs; x++){
+    tiles[x * 2] = tileTypes[x];
+    tiles[(x * 2) + 1] = tileTypes[x];
+  }
+
+  for(var x = 0, tileOne = 0, tileTwo = 0, temp = 0; x < (1500 * (difficulty + 1) / 2); x++){
+    tileOne = randNum((dimensions * dimensions) - 1);
+    tileTwo = randNum((dimensions * dimensions) - 1);
 
     temp = tiles[tileOne];
     tiles[tileOne] = tiles[tileTwo];
@@ -145,21 +231,21 @@ function makeGame(){
 
   table = document.createElement("table");
   table.style = "border-spacing: 4px; padding: 0px; margin: 0px;"
-  for(var x = 0; x < 4; x++){
+  for(var x = 0; x < dimensions; x++){
     tr = document.createElement("tr");
-    for(var y = 0; y < 4; y++){
+    for(var y = 0; y < dimensions; y++){
       td = document.createElement('td');
       td.style = "padding: 0px;"
 
       tile = document.createElement("button");
       tile.type = "button";
       tile.setAttribute("onclick", "executeAsync(imgClick(this.id))");
-      tile.id = "tile" + ((x * 4) + y);
-      tile.style = "border-style: solid; border-color: black; border-width: 3px; outline: none; background: inherit; height: 156px; width: 156px; padding: 0px; margin: 0px;";
+      tile.id = "tile" + ((x * dimensions) + y);
+      tile.style = "border-style: solid; border-color: black; border-width: " + borderSize + "px; outline: none; background: inherit; height: " + (tileSize + (borderSize * 2)) + "px; width: " + (tileSize + (borderSize * 2)) + "px; padding: 0px; margin: 0px;";
 
       tileImg = document.createElement("img");
-      tileImg.src = "images/def.gif";//"images/img" + tiles[(x * 4) + y] + ".gif";
-      tileImg.style = "height: 150px; width: 150px;";
+      tileImg.src = "images/def.gif";
+      tileImg.style = "height: " + tileSize + "px; width: " + tileSize + "px;";
       tileImg.setAttribute("ondragstart", "executeAsync(imgClick(this.parentNode.id)); return false;");
 
       tile.appendChild(tileImg);
@@ -171,14 +257,14 @@ function makeGame(){
   tr = document.createElement("tr");
   td = document.createElement("td");
   td.id = "timer";
-  td.setAttribute("colspan", "2");
+  td.setAttribute("colspan", "" + (dimensions / 2));
   td.appendChild(document.createTextNode("0:00"));
   td.style = "text-align: center;"
   tr.appendChild(td);
   timerElement = td;
   td = document.createElement("td");
   td.id = "tries";
-  td.setAttribute("colspan", "2");
+  td.setAttribute("colspan", "" + (dimensions / 2));
   td.appendChild(document.createTextNode("Tries: 0"));
   td.style = "text-align: center;"
   tr.appendChild(td);
@@ -187,10 +273,14 @@ function makeGame(){
 
   gameWindow.appendChild(table);
 
+  gameWindow.style.backgroundImage = "url(images/back" + backgroundImage + ".png)";
+  gameWindow.style.backgroundSize = "645px 645px";
+  gameWindow.style.backgroundRepeat = "no-repeat";
+  gameWindow.style.backgroundOrigin = "content-box";
+
   startTime = Date.now();
   interval = setInterval(update, 100);
   return;
-
 }
 
 function victory(){
@@ -208,6 +298,8 @@ function victory(){
     gameWindow.removeChild(gameWindow.lastChild);
   }
 
+  gameWindow.style.backgroundImage = '';
+
   div = document.createElement("div");
   div.style = "position: relative; left: -22px; height: 80px; width: 689px; padding: 0xp; margin: 0px; font-weight: bold; font-size: 40px;"
   div.innerHTML = "<marquee>CONGRATULATIONS!!!</marquee>";
@@ -216,7 +308,7 @@ function victory(){
   div.style = "display: inline-block; height: 425px; padding: 0px; margin: 0px;"
   img = document.createElement("img");
   img.style = "height: 400px; width: auto; border-style: solid; border-color: black;"
-  img.src = "images/Durkin.PNG";
+  img.src = "images/back" + backgroundImage + ".png";
   div.appendChild(img);
   gameWindow.appendChild(div);
   div = document.createElement("div");
@@ -237,7 +329,7 @@ function victory(){
   restartButton = document.createElement("button");
   restartButton.style = "height: 60px; width: 240px; outline: none; background-color: #0C77E2; border-color: #098AF5; outline: none; margin-top: 20px;";
   restartButton.innerHTML = "<h2>Play Again</h2>";
-  restartButton.setAttribute("onclick", "executeAsync(makeGame)");
+  restartButton.setAttribute("onclick", "executeAsync(diffSelection)");
   gameWindow.appendChild(restartButton);
 
   return;
